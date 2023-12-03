@@ -1,12 +1,23 @@
-if [ -z $UPSTREAM_REPO ]
-then
+#!/bin/bash
+
+if [ -z "$UPSTREAM_REPO" ]; then
   echo "Cloning main Repository"
-  git clone https://github.com/LazyDeveloperr/LazyPrincess.git /LazyPrincess
+  git clone https://github.com/dhanush2bot/LazyPrincess
 else
-  echo "Cloning Custom Repo from $UPSTREAM_REPO "
-  git clone $UPSTREAM_REPO /LazyPrincess
+  echo "Cloning Custom Repo from $UPSTREAM_REPO"
+  git clone "$UPSTREAM_REPO" /LazyPrincess
 fi
-cd /LazyPrincess
-pip3 install -U -r requirements.txt
-echo "Starting Bot...."
-python3 bot.py
+
+if [ $? -eq 0 ]; then
+  cd /LazyPrincess
+  pip3 install -U -r requirements.txt
+
+  if [ $? -eq 0 ]; then
+    echo "Starting Bot...."
+    python3 bot.py
+  else
+    echo "Error: Pip install failed."
+  fi
+else
+  echo "Error: Git clone failed."
+fi
